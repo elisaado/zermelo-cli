@@ -8,11 +8,15 @@ import (
 func main() {
 	if len(os.Args) < 2 || (os.Args[1] == "help" && len(os.Args) < 3) {
 		fmt.Println(GetHelp())
+		os.Exit(1)
 	}
 }
 
 func GetHelp() string {
-	return `zermelo [command] [command args]
+	return `zermelo-cli is an unofficial command line interface application to access Zermelo (zportal)
+
+Usage:
+  zermelo [command] [command args]
   Commands:
     help                            - Show this help
     help [Command name]             - Show help for a specific command
