@@ -18,6 +18,21 @@ type Config struct {
 
 var config Config
 
+var helpString string = `zermelo-cli is an unofficial command line interface application to access Zermelo (zportal)
+
+Usage:
+  zermelo [command] [command args]
+  Commands:
+    help                            - Show this help
+    help [Command name]             - Show help for a specific command
+    init                            - Show an interactive prompt asking for your organisation and authentication code
+    init [organisation] [auth code] - Initialize Zermelo CLI
+    show                            - Show schedule for today
+    show [day]                      - Show schedule for specific day
+    me                              - Show all info Zermelo knows about you
+    info                            - Show info about zermelo-cli (version, author)
+`
+
 func main() {
 	// Read config file
 	configDirs := configdir.New("elisaado", "zermelo-cli")
@@ -33,7 +48,7 @@ func main() {
 
 	// check if there are no args or if the second command is help and it is not help [command]
 	if len(os.Args) < 2 || (os.Args[1] == "help" && len(os.Args) < 3) {
-		fmt.Println(getHelp())
+		fmt.Println(helpString)
 		os.Exit(1)
 	}
 
@@ -44,25 +59,8 @@ func main() {
 	case "init":
 		fmt.Println("No need to reinitialize... Delete ~/.config/elisaado/zermelo-cli/config.json to log out")
 	default:
-		fmt.Println(getHelp())
+		fmt.Println(helpString)
 	}
-}
-
-func getHelp() string {
-	return `zermelo-cli is an unofficial command line interface application to access Zermelo (zportal)
-
-Usage:
-  zermelo [command] [command args]
-  Commands:
-    help                            - Show this help
-    help [Command name]             - Show help for a specific command
-    init                            - Show an interactive prompt asking for your organisation and authentication code
-    init [organisation] [auth code] - Initialize Zermelo CLI
-    show                            - Show schedule for today
-    show [day]                      - Show schedule for specific day
-    me                              - Show all info Zermelo knows about you
-    info                            - Show info about zermelo-cli (version, author)
-`
 }
 
 func getHelpFor(command string) string {
@@ -77,7 +75,7 @@ func getHelpFor(command string) string {
 	case "info":
 		return "Info is used to get version (and author :D) info, useful for debugging"
 	default:
-		return getHelp()
+		return helpString
 	}
 }
 
