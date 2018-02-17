@@ -7,19 +7,19 @@ import (
 
 func main() {
 	if len(os.Args) < 2 || (os.Args[1] == "help" && len(os.Args) < 3) {
-		fmt.Println(GetHelp())
+		fmt.Println(getHelp())
 		os.Exit(1)
 	}
 
 	switch os.Args[1] {
 	case "help":
-		fmt.Println(GetHelpFor(os.Args[2]))
+		fmt.Println(getHelpFor(os.Args[2]))
 	default:
-		fmt.Println(GetHelp())
+		fmt.Println(getHelp())
 	}
 }
 
-func GetHelp() string {
+func getHelp() string {
 	return `zermelo-cli is an unofficial command line interface application to access Zermelo (zportal)
 
 Usage:
@@ -36,7 +36,7 @@ Usage:
 `
 }
 
-func GetHelpFor(command string) string {
+func getHelpFor(command string) string {
 	switch command {
 	case "init":
 		return `Init is used to initialize zermelo-cli (get the authentication token), when no arguments are provided, zermelo-cli will start an interactive prompt where it will ask the user for their organisation and authentication code, and then it will fetch the authentication token used for further requests. It is saved in plain text in a json file to ~/.config/zermelo-cli/config.json, otherwise it will do the same thing without the interactive prompt`
@@ -47,6 +47,6 @@ func GetHelpFor(command string) string {
 	case "info":
 		return "Info is used to get version (and author :D) info, useful for debugging"
 	default:
-		return GetHelp()
+		return getHelp()
 	}
 }
