@@ -1,19 +1,48 @@
 package main
 
 import (
+	"bufio"
+	"encoding/json"
 	"fmt"
 	"os"
+	"strconv"
+	"strings"
+
+	"github.com/shibukawa/configdir"
 )
 
+type Config struct {
+	Organisation string `json:"organisation"`
+	Token        string `json:"token"`
+}
+
+var config Config
+
 func main() {
+	// Read config file
+	configDirs := configdir.New("elisaado", "zermelo-cli")
+	folder := configDirs.QueryFolderContainsFile("config.json")
+	if folder != nil {
+		data, _ := folder.ReadFile("config.json")
+		json.Unmarshal(data, &config)
+	} else {
+		fmt.Println("No config found... Initializing zermelo-cli...")
+		initialize()
+		os.Exit(0)
+	}
+
+	// check if there are no args or if the second command is help and it is not help [command]
 	if len(os.Args) < 2 || (os.Args[1] == "help" && len(os.Args) < 3) {
 		fmt.Println(getHelp())
 		os.Exit(1)
 	}
 
+	// Check which command it actually is
 	switch os.Args[1] {
 	case "help":
 		fmt.Println(getHelpFor(os.Args[2]))
+	case "init":
+		fmt.Println("No need to reinitialize... Delete ~/.config/elisaado/zermelo-cli/config.json to log out")
 	default:
 		fmt.Println(getHelp())
 	}
@@ -37,9 +66,10 @@ Usage:
 }
 
 func getHelpFor(command string) string {
+	// Check which command it is the user needs help with
 	switch command {
 	case "init":
-		return `Init is used to initialize zermelo-cli (get the authentication token), when no arguments are provided, zermelo-cli will start an interactive prompt where it will ask the user for their organisation and authentication code, and then it will fetch the authentication token used for further requests. It is saved in plain text in a json file to ~/.config/zermelo-cli/config.json, otherwise it will do the same thing without the interactive prompt`
+		return `Init is used to initialize zermelo-cli (get the authentication token), when no arguments are provided, zermelo-cli will start an interactive prompt where it will ask the user for their organisation and authentication code, and then it will fetch the authentication token used for further requests. It is saved in plain text in json format to ~/.config/elisaado/zermelo-cli/config.json`
 	case "show":
 		return "Show is used to show the schedule for a day (kind of the core of this program), when no arguments are provided it will show the schedule for today. Possible arguments are: today, tomorrow, and integers (where 0 is today, 1 is tomorrow, 6 is next week, etc.)"
 	case "me":
@@ -49,4 +79,48 @@ func getHelpFor(command string) string {
 	default:
 		return getHelp()
 	}
+}
+
+func initialize() {
+	// Create scanner to read from stdin
+	scanner := bufio.NewScanner(os.Stdin)
+
+	// Read organisation from stdin
+	fmt.Print("\nPlease enter your organisation: ")
+	scanner.Scan()
+	organisation := scanner.Text()
+
+	// Read auth code from stdin
+	fmt.Print("Please enter your authentication code: ")
+	scanner.Scan()
+	codeS := strings.Replace(scanner.Text(), " ", "", -1)
+
+	// Show them to the user again
+	fmt.Printf("\nOrganisation: %s, authentication code: %s\n\n", organisation, codeS)
+
+	// Convert code to int and check if it's valid
+	code, err := strconv.Atoi(codeS)
+	if len(codeS) != 12 || err != nil || code == 0 {
+		fmt.Println("Invalid authentication code")
+		os.Exit(1)
+	}
+
+	// Fetch auth token
+	fmt.Println("Fetching authentication token...")
+	token := fetchAuthToken(organisation, code)
+	if token == "" {
+		fmt.Println("An error occured... Have you typed everything correctly?")
+	}
+
+	fmt.Println("Finished fetching token... Writing it to ~/.config/elisaado/zermelo-cli/config.json...")
+
+	// Write token and organisation to config file for further requests
+	configDirs := configdir.New("elisaado", "zermelo-cli")
+
+	config.Organisation = organisation
+	config.Token = token
+
+	data, _ := json.Marshal(&config)
+	folders := configDirs.QueryFolders(configdir.Global)
+	folders[0].WriteFile("config.json", data)
 }
