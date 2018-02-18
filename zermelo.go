@@ -41,15 +41,12 @@ type Appointment struct {
 	ChangeDescription   string   `json:"changeDescription"`
 }
 
-var baseurl string
-
 // TODO:
 // Write functions that do get rqequests to the zermelo api and implement some funcs, maybe a class <- struct zermelo or smth idk
 
 func fetchAuthToken(organisation string, code int) string {
 	// Do a http request to get the auth token
-	baseurl = "https://" + organisation + ".zportal.nl/api/v3"
-	response, err := http.PostForm(baseurl+"/oauth/token", url.Values{"grant_type": {"authorization_code"}, "code": {strconv.Itoa(code)}})
+	response, err := http.PostForm("https://"+organisation+".zportal.nl/api/v3"+"/oauth/token", url.Values{"grant_type": {"authorization_code"}, "code": {strconv.Itoa(code)}})
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -70,13 +67,14 @@ func fetchAuthToken(organisation string, code int) string {
 	return jsonBody["access_token"]
 }
 
-func fetchAppointments(token string, start int, end int) []Appointment {
-	response, err := http.Get(baseurl + "/appointments?user=~me&start=" + strconv.Itoa(start) + "&end=" + strconv.Itoa(end) + "&access_token=" + token)
+func fetchAppointments(organisation string, token string, start int, end int) []Appointment {
+	response, err := http.Get("https://" + organisation + ".zportal.nl/api/v3" + "/appointments?user=~me&start=" + strconv.Itoa(start) + "&end=" + strconv.Itoa(end) + "&access_token=" + token)
 	if err != nil {
 		fmt.Println(err)
 	}
 	defer response.Body.Close()
 	if response.StatusCode != 200 {
+		fmt.Println(response)
 		return []Appointment{}
 	}
 
@@ -85,7 +83,7 @@ func fetchAppointments(token string, start int, end int) []Appointment {
 		fmt.Println(err)
 	}
 
-	var appointments []Appointment
+	var appointments map[string]AppointmentResponse
 	json.Unmarshal(body, &appointments)
-	return appointments
+	return appointments["response"].Data
 }
