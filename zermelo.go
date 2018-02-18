@@ -66,7 +66,7 @@ func fetchAuthToken(organisation string, code int) string {
 
 	// Parse json and return token
 	var jsonBody map[string]string
-	_ = json.Unmarshal(body, &jsonBody) // We expect an error, because the expires_at field is [string]int, we don't need it anyway though
+	json.Unmarshal(body, &jsonBody) // We expect an error, because the expires_at field is [string]int, we don't need it anyway though
 	return jsonBody["access_token"]
 }
 
