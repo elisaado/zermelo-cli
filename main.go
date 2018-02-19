@@ -7,6 +7,7 @@ import (
 	"os"
 	"strconv"
 	"strings"
+	"time"
 
 	"github.com/shibukawa/configdir"
 )
@@ -52,12 +53,30 @@ func main() {
 		os.Exit(1)
 	}
 
+	baseurl = "https://" + config.Organisation + ".zportal.nl/api/v3"
+
 	// Check which command it actually is
 	switch os.Args[1] {
 	case "help":
 		fmt.Println(getHelpFor(os.Args[2]))
 	case "init":
 		fmt.Println("No need to reinitialize... Delete ~/.config/elisaado/zermelo-cli/config.json to log out")
+	case "show":
+		var appointments []Appointment
+		if len(os.Args) < 3 || os.Args[2] == "today" || os.Args[2] == "0" {
+			appointments = fetchAppointments(config.Organisation, config.Token, int(time.Date(time.Now().Year(), time.Now().Month(), time.Now().Day(), 0, 0, 0, 0, time.Local).Unix()), int(time.Date(time.Now().Year(), time.Now().Month(), time.Now().Day(), 0, 0, 0, 0, time.Local).Unix()+60*60*24))
+		} else if os.Args[2] == "tomorrow" {
+			appointments = fetchAppointments(config.Organisation, config.Token, int(time.Date(time.Now().Year(), time.Now().Month(), time.Now().Day()+1, 0, 0, 0, 0, time.Local).Unix()), int(time.Date(time.Now().Year(), time.Now().Month(), time.Now().Day()+1, 0, 0, 0, 0, time.Local).Unix()+60*60*24))
+		} else {
+			day, err := strconv.Atoi(os.Args[2])
+			if err != nil || os.Args[2] != strconv.Itoa(day) {
+				fmt.Println("Invalid day")
+				os.Exit(1)
+			}
+			appointments = fetchAppointments(config.Organisation, config.Token, int(time.Date(time.Now().Year(), time.Now().Month(), time.Now().Day()+day, 0, 0, 0, 0, time.Local).Unix()), int(time.Date(time.Now().Year(), time.Now().Month(), time.Now().Day()+day, 0, 0, 0, 0, time.Local).Unix()+60*60*24))
+		}
+		fmt.Println(appointments)
+
 	default:
 		fmt.Println(helpString)
 	}
