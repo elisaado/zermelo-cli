@@ -6,10 +6,12 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
+	"sort"
 	"strconv"
 	"strings"
 	"time"
 
+	"github.com/alexeyco/simpletable"
 	"github.com/shibukawa/configdir"
 )
 
@@ -76,7 +78,12 @@ func main() {
 			}
 			appointments = fetchAppointments(config.Organisation, config.Token, int(time.Date(time.Now().Year(), time.Now().Month(), time.Now().Day()+day, 0, 0, 0, 0, time.Local).Unix()), int(time.Date(time.Now().Year(), time.Now().Month(), time.Now().Day()+day, 0, 0, 0, 0, time.Local).Unix()+60*60*24))
 		}
-		fmt.Println(appointments)
+
+		// Sort the appointments
+		sort.Slice(appointments, func(i, j int) bool { return appointments[i].Start < appointments[j].Start })
+
+		// Print the appointments in a nice table
+		fmt.Println(appointmentPrint(appointments))
 
 	default:
 		fmt.Println(helpString)
@@ -141,4 +148,40 @@ func initialize() {
 	data, _ := json.Marshal(&config)
 	folders := configDirs.QueryFolders(configdir.Global)
 	folders[0].WriteFile("config.json", data)
+}
+
+func appointmentPrint(appointments []Appointment) string {
+	if len(appointments) == 0 {
+		return "Nothing."
+	}
+
+	// Initialize table
+	table := simpletable.New()
+	cells := []*simpletable.Cell{}
+
+	// Fill table header with time of lessons
+	for _, appointment := range appointments {
+		cells = append(cells, &simpletable.Cell{Align: simpletable.AlignCenter, Text: time.Unix(int64(appointment.Start), 0).Format("15:04") + "-" + time.Unix(int64(appointment.End), 0).Format("15:04")})
+	}
+	table.Header = &simpletable.Header{
+		Cells: cells,
+	}
+
+	// Fill the body wiith subjects and teachers
+	var subjects []*simpletable.Cell
+	var teachers []*simpletable.Cell
+	for _, appointment := range appointments {
+		subjects = append(subjects, &simpletable.Cell{
+			Align: simpletable.AlignRight, Text: strings.Join(appointment.Subjects, " ,"),
+		})
+		teachers = append(teachers, &simpletable.Cell{
+			Align: simpletable.AlignRight, Text: strings.Join(appointment.Teachers, ", "),
+		})
+	}
+	table.Body.Cells = append(table.Body.Cells, subjects)
+	table.Body.Cells = append(table.Body.Cells, teachers)
+
+	// "Render" table
+	table.SetStyle(simpletable.StyleUnicode)
+	return table.String()
 }
