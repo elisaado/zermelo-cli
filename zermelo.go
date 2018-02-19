@@ -44,6 +44,8 @@ type Appointment struct {
 // TODO:
 // Write functions that do get rqequests to the zermelo api and implement some funcs, maybe a class <- struct zermelo or smth idk
 
+var baseurl string
+
 func fetchAuthToken(organisation string, code int) string {
 	// Do a http request to get the auth token
 	response, err := http.PostForm("https://"+organisation+".zportal.nl/api/v3"+"/oauth/token", url.Values{"grant_type": {"authorization_code"}, "code": {strconv.Itoa(code)}})
@@ -68,7 +70,7 @@ func fetchAuthToken(organisation string, code int) string {
 }
 
 func fetchAppointments(organisation string, token string, start int, end int) []Appointment {
-	response, err := http.Get("https://" + organisation + ".zportal.nl/api/v3" + "/appointments?user=~me&start=" + strconv.Itoa(start) + "&end=" + strconv.Itoa(end) + "&access_token=" + token)
+	response, err := http.Get(baseurl + "/appointments?user=~me&start=" + strconv.Itoa(start) + "&end=" + strconv.Itoa(end) + "&access_token=" + token)
 	if err != nil {
 		fmt.Println(err)
 	}
