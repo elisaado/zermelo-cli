@@ -1,3 +1,4 @@
+// This file is for doing http requests to Zermelo
 package main
 
 import (

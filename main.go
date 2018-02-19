@@ -1,3 +1,4 @@
+// This file is the file the user is going to interact with
 package main
 
 import (
