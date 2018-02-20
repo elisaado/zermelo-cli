@@ -155,22 +155,15 @@ func appointmentPrint(appointments []Appointment) string {
 		return "Nothing."
 	}
 
-	// Initialize table
+	// Initialize table and cells
 	table := simpletable.New()
 	cells := []*simpletable.Cell{}
-
-	// Fill table header with time of lessons
-	for _, appointment := range appointments {
-		cells = append(cells, &simpletable.Cell{Align: simpletable.AlignCenter, Text: time.Unix(int64(appointment.Start), 0).Format("15:04") + "-" + time.Unix(int64(appointment.End), 0).Format("15:04")})
-	}
-	table.Header = &simpletable.Header{
-		Cells: cells,
-	}
-
-	// Fill the body wiith subjects and teachers
 	var subjects, teachers, locations []*simpletable.Cell
 
+	// Fill table header with time of lessons and the body wiith subjects and teachers
 	for _, appointment := range appointments {
+		cells = append(cells, &simpletable.Cell{Align: simpletable.AlignCenter, Text: time.Unix(int64(appointment.Start), 0).Format("15:04") + "-" + time.Unix(int64(appointment.End), 0).Format("15:04")})
+
 		subjects = append(subjects, &simpletable.Cell{
 			Align: simpletable.AlignRight, Text: strings.Join(appointment.Subjects, " ,"),
 		})
@@ -181,6 +174,11 @@ func appointmentPrint(appointments []Appointment) string {
 			Align: simpletable.AlignRight, Text: strings.Join(appointment.Locations, ", "),
 		})
 	}
+
+	table.Header = &simpletable.Header{
+		Cells: cells,
+	}
+
 	table.Body.Cells = append(table.Body.Cells, subjects)
 	table.Body.Cells = append(table.Body.Cells, teachers)
 	table.Body.Cells = append(table.Body.Cells, locations)
