@@ -94,7 +94,7 @@ func getHelpFor(command string) string {
 	// Check which command it is the user needs help with
 	switch command {
 	case "init":
-		return `Init is used to initialize zermelo-cli (get the authentication token), when no arguments are provided, zermelo-cli will start an interactive prompt where it will ask the user for their organisation and authentication code, and then it will fetch the authentication token used for further requests. It is saved in plain text in json format to ~/.config/elisaado/zermelo-cli/config.json`
+		return `Init is used to initialize zermelo-cli (get the authentication token), it will start an interactive prompt where it will ask your organisation and authentication code, it will then fetch the token, which is saved in plain text in json format to ~/.config/elisaado/zermelo-cli/config.json`
 	case "show":
 		return "Show is used to show the schedule for a day (kind of the core of this program), when no arguments are provided it will show the schedule for today. Possible arguments are: today, tomorrow, and integers (where 0 is today, 1 is tomorrow, 6 is next week, etc.)"
 	case "me":
