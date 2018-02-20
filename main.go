@@ -168,8 +168,8 @@ func appointmentPrint(appointments []Appointment) string {
 	}
 
 	// Fill the body wiith subjects and teachers
-	var subjects []*simpletable.Cell
-	var teachers []*simpletable.Cell
+	var subjects, teachers, locations []*simpletable.Cell
+
 	for _, appointment := range appointments {
 		subjects = append(subjects, &simpletable.Cell{
 			Align: simpletable.AlignRight, Text: strings.Join(appointment.Subjects, " ,"),
@@ -177,9 +177,13 @@ func appointmentPrint(appointments []Appointment) string {
 		teachers = append(teachers, &simpletable.Cell{
 			Align: simpletable.AlignRight, Text: strings.Join(appointment.Teachers, ", "),
 		})
+		locations = append(locations, &simpletable.Cell{
+			Align: simpletable.AlignRight, Text: strings.Join(appointment.Locations, ", "),
+		})
 	}
 	table.Body.Cells = append(table.Body.Cells, subjects)
 	table.Body.Cells = append(table.Body.Cells, teachers)
+	table.Body.Cells = append(table.Body.Cells, locations)
 
 	// "Render" table
 	table.SetStyle(simpletable.StyleUnicode)
