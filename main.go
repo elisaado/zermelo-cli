@@ -16,6 +16,7 @@ import (
 	"github.com/shibukawa/configdir"
 )
 
+// Config is the configuration file structure
 type Config struct {
 	Organisation string `json:"organisation"`
 	Token        string `json:"token"`
@@ -23,7 +24,7 @@ type Config struct {
 
 var config Config
 
-var helpString string = `zermelo-cli is an unofficial command line interface application to access Zermelo (zportal)
+var helpString = `zermelo-cli is an unofficial command line interface application to access Zermelo (zportal)
 
 Usage:
   zermelo [command] [command args]
@@ -87,6 +88,8 @@ func main() {
 		fmt.Println(appointmentPrint(appointments))
 	case "me":
 		fetchMe(config.Token)
+	case "info":
+		fmt.Println(`Zermelo-CLI version 0.1, created by Eli Saado`)
 	default:
 		fmt.Println(helpString)
 	}
