@@ -12,6 +12,7 @@ import (
 	"time"
 
 	"github.com/alexeyco/simpletable"
+	"github.com/mgutz/ansi"
 	"github.com/shibukawa/configdir"
 )
 
@@ -67,16 +68,16 @@ func main() {
 	case "show":
 		var appointments []Appointment
 		if len(os.Args) < 3 || os.Args[2] == "today" || os.Args[2] == "0" {
-			appointments = fetchAppointments(config.Organisation, config.Token, int(time.Date(time.Now().Year(), time.Now().Month(), time.Now().Day(), 0, 0, 0, 0, time.Local).Unix()), int(time.Date(time.Now().Year(), time.Now().Month(), time.Now().Day(), 0, 0, 0, 0, time.Local).Unix()+60*60*24))
+			appointments = fetchAppointments(config.Token, int(time.Date(time.Now().Year(), time.Now().Month(), time.Now().Day(), 0, 0, 0, 0, time.Local).Unix()), int(time.Date(time.Now().Year(), time.Now().Month(), time.Now().Day(), 0, 0, 0, 0, time.Local).Unix()+60*60*24))
 		} else if os.Args[2] == "tomorrow" {
-			appointments = fetchAppointments(config.Organisation, config.Token, int(time.Date(time.Now().Year(), time.Now().Month(), time.Now().Day()+1, 0, 0, 0, 0, time.Local).Unix()), int(time.Date(time.Now().Year(), time.Now().Month(), time.Now().Day()+1, 0, 0, 0, 0, time.Local).Unix()+60*60*24))
+			appointments = fetchAppointments(config.Token, int(time.Date(time.Now().Year(), time.Now().Month(), time.Now().Day()+1, 0, 0, 0, 0, time.Local).Unix()), int(time.Date(time.Now().Year(), time.Now().Month(), time.Now().Day()+1, 0, 0, 0, 0, time.Local).Unix()+60*60*24))
 		} else {
 			day, err := strconv.Atoi(os.Args[2])
 			if err != nil || os.Args[2] != strconv.Itoa(day) {
 				fmt.Println("Invalid day")
 				os.Exit(1)
 			}
-			appointments = fetchAppointments(config.Organisation, config.Token, int(time.Date(time.Now().Year(), time.Now().Month(), time.Now().Day()+day, 0, 0, 0, 0, time.Local).Unix()), int(time.Date(time.Now().Year(), time.Now().Month(), time.Now().Day()+day, 0, 0, 0, 0, time.Local).Unix()+60*60*24))
+			appointments = fetchAppointments(config.Token, int(time.Date(time.Now().Year(), time.Now().Month(), time.Now().Day()+day, 0, 0, 0, 0, time.Local).Unix()), int(time.Date(time.Now().Year(), time.Now().Month(), time.Now().Day()+day, 0, 0, 0, 0, time.Local).Unix()+60*60*24))
 		}
 
 		// Sort the appointments
@@ -84,7 +85,8 @@ func main() {
 
 		// Print the appointments in a nice table
 		fmt.Println(appointmentPrint(appointments))
-
+	case "me":
+		fetchMe(config.Token)
 	default:
 		fmt.Println(helpString)
 	}
@@ -162,7 +164,13 @@ func appointmentPrint(appointments []Appointment) string {
 
 	// Fill table header with time of lessons and the body wiith subjects and teachers
 	for _, appointment := range appointments {
-		cells = append(cells, &simpletable.Cell{Align: simpletable.AlignCenter, Text: time.Unix(int64(appointment.Start), 0).Format("15:04") + "-" + time.Unix(int64(appointment.End), 0).Format("15:04")})
+		if appointment.Cancelled {
+			appointment.Subjects[0] = ansi.Color(appointment.Subjects[0], "red")
+			appointment.Teachers[0] = ansi.Color(appointment.Teachers[0], "red")
+			appointment.Locations[0] = ansi.Color(appointment.Locations[0], "red")
+		}
+
+		cells = append(cells, &simpletable.Cell{Align: simpletable.AlignCenter, Text: strconv.Itoa(appointment.StartTimeSlot) + "  " + time.Unix(int64(appointment.Start), 0).Format("15:04") + "-" + time.Unix(int64(appointment.End), 0).Format("15:04")})
 
 		subjects = append(subjects, &simpletable.Cell{
 			Align: simpletable.AlignRight, Text: strings.Join(appointment.Subjects, " ,"),

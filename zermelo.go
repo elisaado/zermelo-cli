@@ -42,6 +42,13 @@ type Appointment struct {
 	ChangeDescription   string   `json:"changeDescription"`
 }
 
+type Person struct {
+	code      int    `json:"code"`
+	firstName string `json:"firstName"`
+}
+
+// https://bc-enschede.zportal.nl/api/v3/users/~me?fields=code,firstName,prefix,lastName,email,ldap,roles,isStudent,isEmployee,isFamilyMember,isApplicationManager,isSchoolScheduler,isSchoolLeader,isStudentAdministrator,isBranchLeader,isTeamLeader,isSectionLeader,isMentor,isParentTeacherNightScheduler,isDean
+
 // TODO:
 // Write functions that do get rqequests to the zermelo api and implement some funcs, maybe a class <- struct zermelo or smth idk
 
@@ -70,7 +77,7 @@ func fetchAuthToken(organisation string, code int) string {
 	return jsonBody["access_token"]
 }
 
-func fetchAppointments(organisation string, token string, start int, end int) []Appointment {
+func fetchAppointments(token string, start int, end int) []Appointment {
 	response, err := http.Get(baseurl + "/appointments?user=~me&start=" + strconv.Itoa(start) + "&end=" + strconv.Itoa(end) + "&access_token=" + token)
 	if err != nil {
 		fmt.Println(err)
@@ -89,4 +96,10 @@ func fetchAppointments(organisation string, token string, start int, end int) []
 	var appointments map[string]AppointmentResponse
 	json.Unmarshal(body, &appointments)
 	return appointments["response"].Data
+}
+
+func fetchMe(token string) Person {
+	var person Person
+	return person
+
 }
