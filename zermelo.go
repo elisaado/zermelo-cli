@@ -128,7 +128,7 @@ func fetchAppointments(token string, start int, end int) []Appointment {
 
 	var appointments map[string]Response
 	json.Unmarshal(body, &appointments)
-	return appointments["response"].Data
+	return appointments["response"].Data[0].([]Appointment)
 }
 
 func fetchMe(token string) Person {
