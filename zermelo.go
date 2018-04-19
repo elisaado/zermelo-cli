@@ -10,15 +10,17 @@ import (
 	"strconv"
 )
 
-type AppointmentResponse struct {
+// Response are the fields the server sends back when requestion (wat)
+type Response struct {
 	Status    int           `json:"status"`
 	Message   string        `json:"message"`
 	StartRow  int           `json:"startRow"`
 	EndRow    int           `json:"endRow"`
 	TotalRows int           `json:"totalRows"`
-	Data      []Appointment `json:"data"`
+	Data      []interface{} `json:"data"`
 }
 
+// Appointment is an appointment (xd)
 type Appointment struct {
 	ID                  int      `json:"id"`
 	AppointmentInstance int      `json:"appointmentInstance"`
@@ -124,7 +126,7 @@ func fetchAppointments(token string, start int, end int) []Appointment {
 		fmt.Println(err)
 	}
 
-	var appointments map[string]AppointmentResponse
+	var appointments map[string]Response
 	json.Unmarshal(body, &appointments)
 	return appointments["response"].Data
 }
