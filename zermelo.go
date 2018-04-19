@@ -42,9 +42,40 @@ type Appointment struct {
 	ChangeDescription   string   `json:"changeDescription"`
 }
 
+// Person is a person
 type Person struct {
-	code      int    `json:"code"`
-	firstName string `json:"firstName"`
+	Archived                      bool        `json:"archived"`
+	City                          string      `json:"city"`
+	Code                          string      `json:"code"`
+	DateOfBirth                   string      `json:"dateOfBirth"`
+	Email                         string      `json:"email"`
+	FirstName                     string      `json:"firstName"`
+	Gender                        string      `json:"gender"`
+	HasPassword                   bool        `json:"hasPassword"`
+	HouseNumber                   string      `json:"houseNumber"`
+	IsApplicationManager          bool        `json:"isApplicationManager"`
+	IsDean                        bool        `json:"isDean"`
+	IsEmployee                    bool        `json:"isEmployee"`
+	IsFamilyMember                bool        `json:"isFamilyMember"`
+	IsMentor                      bool        `json:"isMentor"`
+	IsParentTeacherNightScheduler bool        `json:"isParentTeacherNightScheduler"`
+	IsSchoolLeader                bool        `json:"isSchoolLeader"`
+	IsSchoolScheduler             bool        `json:"isSchoolScheduler"`
+	IsSectionLeader               bool        `json:"isSectionLeader"`
+	IsStudent                     bool        `json:"isStudent"`
+	IsStudentAdministrator        bool        `json:"isStudentAdministrator"`
+	IsTeamLeader                  bool        `json:"isTeamLeader"`
+	LastName                      string      `json:"lastName"`
+	Ldap                          bool        `json:"ldap"`
+	MagisterUUID                  interface{} `json:"magisterUUID"`
+	PostalCode                    interface{} `json:"postalCode"`
+	Prefix                        interface{} `json:"prefix"`
+	Roles                         []string    `json:"roles"`
+	SchoolInSchoolYears           []int       `json:"schoolInSchoolYears"`
+	SomUUID                       interface{} `json:"somUUID"`
+	Street                        string      `json:"street"`
+	UserPrincipalName             interface{} `json:"userPrincipalName"`
+	Username                      string      `json:"username"`
 }
 
 // https://bc-enschede.zportal.nl/api/v3/users/~me?fields=code,firstName,prefix,lastName,email,ldap,roles,isStudent,isEmployee,isFamilyMember,isApplicationManager,isSchoolScheduler,isSchoolLeader,isStudentAdministrator,isBranchLeader,isTeamLeader,isSectionLeader,isMentor,isParentTeacherNightScheduler,isDean
