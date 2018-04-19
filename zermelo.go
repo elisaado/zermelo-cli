@@ -147,8 +147,29 @@ func fetchAppointments(token string, start int, end int) []Appointment {
 	return realAppointments
 }
 
-func fetchMe(token string) Person {
-	var person Person
-	return person
+// returns a "pretty" json string of person
+func fetchMe(token string) string {
+	response, err := http.Get(baseurl + "/users/~me?access_token=" + token)
+	if err != nil {
+		fmt.Println(err)
+	}
+	defer response.Body.Close()
+	if response.StatusCode != 200 {
+		fmt.Println(response)
+		return "{}"
+	}
 
+	body, err := ioutil.ReadAll(response.Body)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	// please dont look here
+	var person map[string]Response
+	json.Unmarshal(body, &person)
+	bytes, err := json.MarshalIndent(person["response"].Data.([]interface{})[0], "", "   ")
+	if err != nil {
+		panic(err)
+	}
+	return string(bytes)
 }
