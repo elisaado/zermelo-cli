@@ -126,9 +126,25 @@ func fetchAppointments(token string, start int, end int) []Appointment {
 		fmt.Println(err)
 	}
 
+	// <begin> What's about to come is really really bad, I'm sorry
 	var appointments map[string]Response
 	json.Unmarshal(body, &appointments)
-	return appointments["response"].Data[0].([]Appointment)
+
+	// these are the REAL APPOINTMENTS OKAY PELASE HELP
+	var realAppointments []Appointment
+	// MARSHALL IT INTO JSON AGAIN
+	bytes, err := json.Marshal(appointments["response"].Data)
+	// WOOP WOOP
+	// what even
+	if err != nil {
+		panic(err)
+	}
+	// UNMARSHALL IT BACK BUT INTO A STRUCT
+	json.Unmarshal(bytes, &realAppointments)
+	// I'M TIRED PLEASE HELP
+
+	// <end> Told ya
+	return realAppointments
 }
 
 func fetchMe(token string) Person {
