@@ -87,7 +87,7 @@ func main() {
 		// Print the appointments in a nice table
 		fmt.Println(appointmentPrint(appointments))
 	case "me":
-		fetchMe(config.Token)
+		fmt.Println(fetchMe(config.Token))
 	case "info":
 		fmt.Println(`Zermelo-CLI version 0.1, created by Eli Saado`)
 	default:
@@ -194,7 +194,20 @@ func appointmentPrint(appointments []Appointment) string {
 	table.Body.Cells = append(table.Body.Cells, teachers)
 	table.Body.Cells = append(table.Body.Cells, locations)
 
-	// "Render" table
+	// Calculate how much time is left before the day is finished
+	timeLeft := time.Unix(int64(appointments[len(appointments)-1].End), 0).Sub(time.Now())
+
+	// "Render" table and info
 	table.SetStyle(simpletable.StyleUnicode)
-	return table.String()
+	return fmt.Sprintf("Time left before your day is finished: %v\n%v", fmtDuration(timeLeft), table.String())
+}
+
+func fmtDuration(d time.Duration) string {
+	d = d.Round(time.Second)
+	h := d / time.Hour
+	d -= h * time.Hour
+	m := d / time.Minute
+	d -= m * time.Minute
+	s := d / time.Second
+	return fmt.Sprintf("%d hours, %d minutes and %d seconds", h, m, s)
 }
