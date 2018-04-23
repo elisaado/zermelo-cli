@@ -167,10 +167,17 @@ func appointmentPrint(appointments []Appointment) string {
 
 	// Fill table header with time of lessons and the body wiith subjects and teachers
 	for _, appointment := range appointments {
+		fmt.Println(appointment.Cancelled, appointment.Moved, appointment.Modified, appointment.New, appointment.Valid)
 		if appointment.Cancelled {
 			appointment.Subjects[0] = ansi.Color(appointment.Subjects[0], "red")
 			appointment.Teachers[0] = ansi.Color(appointment.Teachers[0], "red")
 			appointment.Locations[0] = ansi.Color(appointment.Locations[0], "red")
+		}
+
+		if !appointment.Valid {
+			appointment.Subjects[0] = ansi.Color(appointment.Subjects[0], "yellow")
+			appointment.Teachers[0] = ansi.Color(appointment.Teachers[0], "yellow")
+			appointment.Locations[0] = ansi.Color(appointment.Locations[0], "yellow")
 		}
 
 		cells = append(cells, &simpletable.Cell{Align: simpletable.AlignCenter, Text: strconv.Itoa(appointment.StartTimeSlot) + "  " + time.Unix(int64(appointment.Start), 0).Format("15:04") + "-" + time.Unix(int64(appointment.End), 0).Format("15:04")})
