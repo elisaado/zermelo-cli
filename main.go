@@ -167,7 +167,6 @@ func appointmentPrint(appointments []Appointment) string {
 
 	// Fill table header with time of lessons and the body wiith subjects and teachers
 	for _, appointment := range appointments {
-		fmt.Println(appointment.Cancelled, appointment.Moved, appointment.Modified, appointment.New, appointment.Valid)
 		if appointment.Cancelled {
 			appointment.Subjects[0] = ansi.Color(appointment.Subjects[0], "red")
 			appointment.Teachers[0] = ansi.Color(appointment.Teachers[0], "red")
