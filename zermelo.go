@@ -12,12 +12,12 @@ import (
 
 // Response are the fields the server sends back when requestion (wat)
 type Response struct {
-	Status    int           `json:"status"`
-	Message   string        `json:"message"`
-	StartRow  int           `json:"startRow"`
-	EndRow    int           `json:"endRow"`
-	TotalRows int           `json:"totalRows"`
-	Data      []interface{} `json:"data"`
+	Status    int         `json:"status"`
+	Message   string      `json:"message"`
+	StartRow  int         `json:"startRow"`
+	EndRow    int         `json:"endRow"`
+	TotalRows int         `json:"totalRows"`
+	Data      interface{} `json:"data"`
 }
 
 // Appointment is an appointment (xd)
