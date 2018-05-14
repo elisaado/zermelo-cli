@@ -1,5 +1,5 @@
 echo "Checking if Go is installed..."
-which go && echo "Go is installed!" || (echo "Go is not installed, please install it via your package manager to compile and install zermelo-cli" && exit 1)
+type go && echo "Go is installed!" || (echo "Go is not installed, please install it via your package manager to compile and install zermelo-cli" && exit 1)
 
 echo "
 Fetching packages..."
