@@ -67,20 +67,35 @@ func main() {
 	case "init":
 		fmt.Println("No need to reinitialize... Delete ~/.config/elisaado/zermelo-cli/config.json to log out")
 	case "show":
-		var appointments []Appointment
+		var daysfromnow int
+		now := time.Now()
 		if len(os.Args) < 3 || os.Args[2] == "today" || os.Args[2] == "0" {
-			appointments = fetchAppointments(config.Token, int(time.Date(time.Now().Year(), time.Now().Month(), time.Now().Day(), 0, 0, 0, 0, time.Local).Unix()), int(time.Date(time.Now().Year(), time.Now().Month(), time.Now().Day(), 0, 0, 0, 0, time.Local).Unix()+60*60*24))
+			daysfromnow = 0
 		} else if os.Args[2] == "tomorrow" {
-			appointments = fetchAppointments(config.Token, int(time.Date(time.Now().Year(), time.Now().Month(), time.Now().Day()+1, 0, 0, 0, 0, time.Local).Unix()), int(time.Date(time.Now().Year(), time.Now().Month(), time.Now().Day()+1, 0, 0, 0, 0, time.Local).Unix()+60*60*24))
+			daysfromnow = 1
+		} else if os.Args[2] == "." {
 		} else {
 			day, err := strconv.Atoi(os.Args[2])
 			if err != nil || os.Args[2] != strconv.Itoa(day) {
 				fmt.Println("Invalid day")
 				os.Exit(1)
 			}
-			appointments = fetchAppointments(config.Token, int(time.Date(time.Now().Year(), time.Now().Month(), time.Now().Day()+day, 0, 0, 0, 0, time.Local).Unix()), int(time.Date(time.Now().Year(), time.Now().Month(), time.Now().Day()+day, 0, 0, 0, 0, time.Local).Unix()+60*60*24))
+
+			daysfromnow = day
 		}
 
+		var start int
+		var end int
+
+		start = int(time.Date(now.Year(), now.Month(), now.Day() + daysfromnow, 0, 0, 0, 0, time.Local).Unix())
+		end = start+24*60*60 // 24 hours
+
+		if len(os.Args) > 2 && os.Args[2] == "." { // redefine them
+			start = int(time.Date(now.Year(), now.Month(), now.Day(), now.Hour(), now.Minute(), now.Second(), 0, time.Local).Unix())
+			end = int(time.Date(now.Year(), now.Month(), now.Day(), 23, 59, 59, 0, time.Local).Unix())
+		}
+
+		appointments := fetchAppointments(config.Token, start, end)
 		// Sort the appointments
 		sort.Slice(appointments, func(i, j int) bool { return appointments[i].Start < appointments[j].Start })
 
@@ -101,7 +116,7 @@ func getHelpFor(command string) string {
 	case "init":
 		return `Init is used to initialize zermelo-cli (get the authentication token), it will start an interactive prompt where it will ask your organisation and authentication code, it will then fetch the token, which is saved in plain text in json format to ~/.config/elisaado/zermelo-cli/config.json`
 	case "show":
-		return "Show is used to show the schedule for a day (kind of the core of this program), when no arguments are provided it will show the schedule for today. Possible arguments are: today, tomorrow, and integers (where 0 is today, 1 is tomorrow, 6 is next week, etc.)"
+		return "Show is used to show the schedule for a day (kind of the core of this program), when no arguments are provided it will show the schedule for today. Possible arguments are: . (remaining), today, tomorrow, and integers (where 0 is today, 1 is tomorrow, 6 is next week, etc.)"
 	case "me":
 		return "Me is used to see who's currently logged in, it returns all info Zermelo knows about you (first name, last name, etc.)"
 	case "info":
@@ -201,10 +216,17 @@ func appointmentPrint(appointments []Appointment) string {
 	table.Body.Cells = append(table.Body.Cells, locations)
 
 	// Calculate how much time is left before the day is finished
-	timeLeft := time.Unix(int64(appointments[len(appointments)-1].End), 0).Sub(time.Now())
-
-	// "Render" table and info
+	lastLessonEnd := time.Unix(int64(appointments[len(appointments)-1].End), 0)
+	timeLeft := lastLessonEnd.Sub(time.Now())
 	table.SetStyle(simpletable.StyleUnicode)
+
+	now := time.Now()
+	today := time.Date(now.Year(), now.Month(), now.Day(), 23, 59, 59, 0, time.Local)
+
+	// "Render" table
+	if lastLessonEnd.Before(time.Now()) || lastLessonEnd.After(today) { // check if timeleft is not negative
+		return table.String()
+	}
 	return fmt.Sprintf("Time left before your day is finished: %v\n%v", fmtDuration(timeLeft), table.String())
 }
 

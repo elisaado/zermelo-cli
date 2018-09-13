@@ -80,11 +80,6 @@ type Person struct {
 	Username                      string      `json:"username"`
 }
 
-// https://bc-enschede.zportal.nl/api/v3/users/~me?fields=code,firstName,prefix,lastName,email,ldap,roles,isStudent,isEmployee,isFamilyMember,isApplicationManager,isSchoolScheduler,isSchoolLeader,isStudentAdministrator,isBranchLeader,isTeamLeader,isSectionLeader,isMentor,isParentTeacherNightScheduler,isDean
-
-// TODO:
-// Write functions that do get rqequests to the zermelo api and implement some funcs, maybe a class <- struct zermelo or smth idk
-
 var baseurl string
 
 func fetchAuthToken(organisation string, code int) string {
