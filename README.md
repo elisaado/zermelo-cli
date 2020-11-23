@@ -1,6 +1,9 @@
 # zermelo-cli
 Unofficial command line interface application to access Zermelo (zportal)
 
+## Installation
+Use `go get github.com/elisaado/zermelo-cli` to install.
+
 ## Usage
 When no arguments are provided to the executable, it will start an interactive REPL-ish environment where one can execute multiple commands
 
