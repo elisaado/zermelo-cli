@@ -1,0 +1,93 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_OUTPUT_EXCMD	mixed	/number, pattern, mixed, or combineV2/
+!_TAG_OUTPUT_FILESEP	slash	/slash or backslash/
+!_TAG_OUTPUT_MODE	u-ctags	/u-ctags or e-ctags/
+!_TAG_PATTERN_LENGTH_LIMIT	96	/0 for no limit/
+!_TAG_PROC_CWD	/home/eli/zermelo-cli/	//
+!_TAG_PROGRAM_AUTHOR	Universal Ctags Team	//
+!_TAG_PROGRAM_NAME	Universal Ctags	/Derived from Exuberant Ctags/
+!_TAG_PROGRAM_URL	https://ctags.io/	/official site/
+!_TAG_PROGRAM_VERSION	5.9.0	/6262ea62/
+Appointment	zermelo.go	/^type Appointment struct {$/;"	s	package:main
+AppointmentInstance	zermelo.go	/^	AppointmentInstance int      `json:"appointmentInstance"`$/;"	m	struct:main.Appointment	typeref:typename:int
+Archived	zermelo.go	/^	Archived                      bool        `json:"archived"`$/;"	m	struct:main.Person	typeref:typename:bool
+Author	README.md	/^## Author$/;"	s	chapter:zermelo-cli
+Cancelled	zermelo.go	/^	Cancelled           bool     `json:"cancelled"`$/;"	m	struct:main.Appointment	typeref:typename:bool
+ChangeDescription	zermelo.go	/^	ChangeDescription   string   `json:"changeDescription"`$/;"	m	struct:main.Appointment	typeref:typename:string
+City	zermelo.go	/^	City                          string      `json:"city"`$/;"	m	struct:main.Person	typeref:typename:string
+Code	zermelo.go	/^	Code                          string      `json:"code"`$/;"	m	struct:main.Person	typeref:typename:string
+Commands	README.md	/^### Commands$/;"	S	section:zermelo-cli""Usage
+Config	main.go	/^type Config struct {$/;"	s	package:main
+Data	zermelo.go	/^	Data      interface{} `json:"data"`$/;"	m	struct:main.Response	typeref:typename:interface{}
+DateOfBirth	zermelo.go	/^	DateOfBirth                   string      `json:"dateOfBirth"`$/;"	m	struct:main.Person	typeref:typename:string
+Email	zermelo.go	/^	Email                         string      `json:"email"`$/;"	m	struct:main.Person	typeref:typename:string
+End	zermelo.go	/^	End                 int      `json:"end"`$/;"	m	struct:main.Appointment	typeref:typename:int
+EndRow	zermelo.go	/^	EndRow    int         `json:"endRow"`$/;"	m	struct:main.Response	typeref:typename:int
+EndTimeSlot	zermelo.go	/^	EndTimeSlot         int      `json:"endTimeSlot"`$/;"	m	struct:main.Appointment	typeref:typename:int
+FirstName	zermelo.go	/^	FirstName                     string      `json:"firstName"`$/;"	m	struct:main.Person	typeref:typename:string
+Gender	zermelo.go	/^	Gender                        string      `json:"gender"`$/;"	m	struct:main.Person	typeref:typename:string
+Groups	zermelo.go	/^	Groups              []string `json:"groups"`$/;"	m	struct:main.Appointment	typeref:typename:[]string
+GroupsInDepartments	zermelo.go	/^	GroupsInDepartments []int    `json:"groupsInDepartment"`$/;"	m	struct:main.Appointment	typeref:typename:[]int
+HasPassword	zermelo.go	/^	HasPassword                   bool        `json:"hasPassword"`$/;"	m	struct:main.Person	typeref:typename:bool
+HouseNumber	zermelo.go	/^	HouseNumber                   string      `json:"houseNumber"`$/;"	m	struct:main.Person	typeref:typename:string
+ID	zermelo.go	/^	ID                  int      `json:"id"`$/;"	m	struct:main.Appointment	typeref:typename:int
+Installation	README.md	/^## Installation$/;"	s	chapter:zermelo-cli
+IsApplicationManager	zermelo.go	/^	IsApplicationManager          bool        `json:"isApplicationManager"`$/;"	m	struct:main.Person	typeref:typename:bool
+IsDean	zermelo.go	/^	IsDean                        bool        `json:"isDean"`$/;"	m	struct:main.Person	typeref:typename:bool
+IsEmployee	zermelo.go	/^	IsEmployee                    bool        `json:"isEmployee"`$/;"	m	struct:main.Person	typeref:typename:bool
+IsFamilyMember	zermelo.go	/^	IsFamilyMember                bool        `json:"isFamilyMember"`$/;"	m	struct:main.Person	typeref:typename:bool
+IsMentor	zermelo.go	/^	IsMentor                      bool        `json:"isMentor"`$/;"	m	struct:main.Person	typeref:typename:bool
+IsParentTeacherNightScheduler	zermelo.go	/^	IsParentTeacherNightScheduler bool        `json:"isParentTeacherNightScheduler"`$/;"	m	struct:main.Person	typeref:typename:bool
+IsSchoolLeader	zermelo.go	/^	IsSchoolLeader                bool        `json:"isSchoolLeader"`$/;"	m	struct:main.Person	typeref:typename:bool
+IsSchoolScheduler	zermelo.go	/^	IsSchoolScheduler             bool        `json:"isSchoolScheduler"`$/;"	m	struct:main.Person	typeref:typename:bool
+IsSectionLeader	zermelo.go	/^	IsSectionLeader               bool        `json:"isSectionLeader"`$/;"	m	struct:main.Person	typeref:typename:bool
+IsStudent	zermelo.go	/^	IsStudent                     bool        `json:"isStudent"`$/;"	m	struct:main.Person	typeref:typename:bool
+IsStudentAdministrator	zermelo.go	/^	IsStudentAdministrator        bool        `json:"isStudentAdministrator"`$/;"	m	struct:main.Person	typeref:typename:bool
+IsTeamLeader	zermelo.go	/^	IsTeamLeader                  bool        `json:"isTeamLeader"`$/;"	m	struct:main.Person	typeref:typename:bool
+LastName	zermelo.go	/^	LastName                      string      `json:"lastName"`$/;"	m	struct:main.Person	typeref:typename:string
+Ldap	zermelo.go	/^	Ldap                          bool        `json:"ldap"`$/;"	m	struct:main.Person	typeref:typename:bool
+Locations	zermelo.go	/^	Locations           []string `json:"locations"`$/;"	m	struct:main.Appointment	typeref:typename:[]string
+LocationsOfBranch	zermelo.go	/^	LocationsOfBranch   []int    `json:"locationsOfBranch"`$/;"	m	struct:main.Appointment	typeref:typename:[]int
+MagisterUUID	zermelo.go	/^	MagisterUUID                  interface{} `json:"magisterUUID"`$/;"	m	struct:main.Person	typeref:typename:interface{}
+Message	zermelo.go	/^	Message   string      `json:"message"`$/;"	m	struct:main.Response	typeref:typename:string
+Modified	zermelo.go	/^	Modified            bool     `json:"modified"`$/;"	m	struct:main.Appointment	typeref:typename:bool
+Moved	zermelo.go	/^	Moved               bool     `json:"moved"`$/;"	m	struct:main.Appointment	typeref:typename:bool
+New	zermelo.go	/^	New                 bool     `json:"new"`$/;"	m	struct:main.Appointment	typeref:typename:bool
+Organisation	main.go	/^	Organisation string `json:"organisation"`$/;"	m	struct:main.Config	typeref:typename:string
+Person	zermelo.go	/^type Person struct {$/;"	s	package:main
+PostalCode	zermelo.go	/^	PostalCode                    interface{} `json:"postalCode"`$/;"	m	struct:main.Person	typeref:typename:interface{}
+Prefix	zermelo.go	/^	Prefix                        interface{} `json:"prefix"`$/;"	m	struct:main.Person	typeref:typename:interface{}
+Remark	zermelo.go	/^	Remark              string   `json:"remark"`$/;"	m	struct:main.Appointment	typeref:typename:string
+Response	zermelo.go	/^type Response struct {$/;"	s	package:main
+Roles	zermelo.go	/^	Roles                         []string    `json:"roles"`$/;"	m	struct:main.Person	typeref:typename:[]string
+SchoolInSchoolYears	zermelo.go	/^	SchoolInSchoolYears           []int       `json:"schoolInSchoolYears"`$/;"	m	struct:main.Person	typeref:typename:[]int
+SomUUID	zermelo.go	/^	SomUUID                       interface{} `json:"somUUID"`$/;"	m	struct:main.Person	typeref:typename:interface{}
+Start	zermelo.go	/^	Start               int      `json:"start"`$/;"	m	struct:main.Appointment	typeref:typename:int
+StartRow	zermelo.go	/^	StartRow  int         `json:"startRow"`$/;"	m	struct:main.Response	typeref:typename:int
+StartTimeSlot	zermelo.go	/^	StartTimeSlot       int      `json:"startTimeSlot"`$/;"	m	struct:main.Appointment	typeref:typename:int
+Status	zermelo.go	/^	Status    int         `json:"status"`$/;"	m	struct:main.Response	typeref:typename:int
+Street	zermelo.go	/^	Street                        string      `json:"street"`$/;"	m	struct:main.Person	typeref:typename:string
+Subjects	zermelo.go	/^	Subjects            []string `json:"subjects"`$/;"	m	struct:main.Appointment	typeref:typename:[]string
+Teachers	zermelo.go	/^	Teachers            []string `json:"teachers"`$/;"	m	struct:main.Appointment	typeref:typename:[]string
+Token	main.go	/^	Token        string `json:"token"`$/;"	m	struct:main.Config	typeref:typename:string
+TotalRows	zermelo.go	/^	TotalRows int         `json:"totalRows"`$/;"	m	struct:main.Response	typeref:typename:int
+Type	zermelo.go	/^	Type                string   `json:"type"`$/;"	m	struct:main.Appointment	typeref:typename:string
+Usage	README.md	/^## Usage$/;"	s	chapter:zermelo-cli
+UserPrincipalName	zermelo.go	/^	UserPrincipalName             interface{} `json:"userPrincipalName"`$/;"	m	struct:main.Person	typeref:typename:interface{}
+Username	zermelo.go	/^	Username                      string      `json:"username"`$/;"	m	struct:main.Person	typeref:typename:string
+Valid	zermelo.go	/^	Valid               bool     `json:"valid"`$/;"	m	struct:main.Appointment	typeref:typename:bool
+appointmentPrint	main.go	/^func appointmentPrint(appointments []Appointment) string {$/;"	f	package:main	typeref:typename:string
+baseurl	zermelo.go	/^var baseurl string$/;"	v	package:main	typeref:typename:string
+config	main.go	/^var config Config$/;"	v	package:main	typeref:struct:Config
+fetchAppointments	zermelo.go	/^func fetchAppointments(token string, start int, end int) []Appointment {$/;"	f	package:main	typeref:typename:[]Appointment
+fetchAuthToken	zermelo.go	/^func fetchAuthToken(organisation string, code int) string {$/;"	f	package:main	typeref:typename:string
+fetchMe	zermelo.go	/^func fetchMe(token string) string {$/;"	f	package:main	typeref:typename:string
+fmtDuration	main.go	/^func fmtDuration(d time.Duration) string {$/;"	f	package:main	typeref:typename:string
+getHelpFor	main.go	/^func getHelpFor(command string) string {$/;"	f	package:main	typeref:typename:string
+helpString	main.go	/^var helpString = `zermelo-cli is an unofficial command line interface application to access Zerm/;"	v	package:main
+initialize	main.go	/^func initialize() {$/;"	f	package:main
+main	main.go	/^func main() {$/;"	f	package:main
+main	main.go	/^package main$/;"	p
+main	zermelo.go	/^package main$/;"	p
+zermelo-cli	README.md	/^# zermelo-cli$/;"	c
